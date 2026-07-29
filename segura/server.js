@@ -20,6 +20,10 @@ const db = require('./db');
 const PORT = process.env.PORT || 3002;
 const app = express();
 
+// Con Nginx delante, sin esto req.ip sería siempre 127.0.0.1 (rate limit y auth_events inútiles)
+const behindHttpsProxy = process.env.BEHIND_HTTPS_PROXY === '1';
+if (behindHttpsProxy) app.set('trust proxy', 1);
+
 const uploadsDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir);
 
@@ -56,7 +60,7 @@ app.use(
     cookie: {
       httpOnly: true,
       sameSite: 'lax',
-      secure: false, // localhost sin HTTPS
+      secure: behindHttpsProxy, // en localhost no hay HTTPS
       maxAge: 1000 * 60 * 60,
     },
   })
