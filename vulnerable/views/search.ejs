@@ -1,0 +1,38 @@
+<%- include('partials/header', { title: 'Buscar' }) %>
+<section class="hero">
+  <h1>Buscar movimientos</h1>
+  <p>Filtra por concepto. En la versión vulnerable la consulta es inyectable.</p>
+</section>
+<section class="panel">
+  <form method="GET" action="/search">
+    <label>Concepto</label>
+    <input name="q" value="<%= typeof q !== 'undefined' ? q : '' %>" />
+    <button type="submit">Buscar</button>
+  </form>
+</section>
+<% if (error) { %>
+  <div class="flash error">Error SQL: <%= error %></div>
+<% } %>
+<% if (typeof q !== 'undefined' && q) { %>
+  <section class="panel">
+    <h2>Resultados para: <%- q %></h2>
+    <% if (!results.length) { %>
+      <p class="muted">Sin coincidencias.</p>
+    <% } else { %>
+      <table>
+        <thead><tr><th>Concepto</th><th>De</th><th>A</th><th>Monto</th></tr></thead>
+        <tbody>
+          <% results.forEach(t => { %>
+            <tr>
+              <td><%= t.concept %></td>
+              <td><%= t.from_name || '—' %></td>
+              <td><%= t.to_name || '—' %></td>
+              <td>$<%= Number(t.amount).toFixed(2) %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+  </section>
+<% } %>
+<%- include('partials/footer') %>

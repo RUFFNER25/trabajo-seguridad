@@ -1,0 +1,15 @@
+<%- include('partials/header', { title: 'Entrar' }) %>
+<section class="panel auth-card">
+  <h2>Iniciar sesión</h2>
+  <p class="muted">Demo: alice / password123</p>
+  <form method="POST" action="/login">
+    <% if (typeof csrfToken !== 'undefined') { %><input type="hidden" name="_csrf" value="<%= csrfToken %>" /><% } %>
+    <label>Usuario</label>
+    <input name="username" autocomplete="username" required />
+    <label>Contraseña</label>
+    <input type="password" name="password" autocomplete="current-password" required />
+    <button type="submit">Entrar</button>
+  </form>
+  <p class="muted" style="margin-top:1rem">¿Nuevo? <a href="/register">Crear cuenta</a></p>
+</section>
+<%- include('partials/footer') %>

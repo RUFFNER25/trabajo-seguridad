@@ -1,0 +1,20 @@
+<%- include('partials/header', { title: 'Verificar URL' }) %>
+<section class="hero">
+  <h1>Verificar URL de comercio</h1>
+  <p>El banco obtiene la página remota solo si el host está en la allowlist.</p>
+</section>
+<section class="panel">
+  <form method="POST" action="/preview">
+    <% if (typeof csrfToken !== 'undefined') { %><input type="hidden" name="_csrf" value="<%= csrfToken %>" /><% } %>
+    <label>URL</label>
+    <input name="url" value="<%= url || '' %>" placeholder="http://example.com" />
+    <button type="submit">Verificar</button>
+  </form>
+</section>
+<% if (content !== null) { %>
+  <section class="panel">
+    <h2>Respuesta</h2>
+    <pre class="preview"><%= content %></pre>
+  </section>
+<% } %>
+<%- include('partials/footer') %>

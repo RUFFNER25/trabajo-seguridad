@@ -1,0 +1,49 @@
+<%-
+  // layout helper via include pattern — cada vista incluye header/footer
+%>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SecureBank Lab<%= typeof title !== 'undefined' ? ' · ' + title : '' %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="lab-banner">Laboratorio académico — dinero ficticio — solo localhost. No es un banco real.</div>
+  <header class="topbar">
+    <div class="brand">
+      Secure<span>Bank</span>
+      <% if (appMode === 'vulnerable') { %>
+        <span class="badge badge-vuln">VULNERABLE · lab</span>
+      <% } else { %>
+        <span class="badge badge-safe">SEGURA · lab</span>
+      <% } %>
+    </div>
+    <nav>
+      <% if (user) { %>
+        <a href="/">Dashboard</a>
+        <a href="/transfer">Transferir</a>
+        <a href="/search">Buscar</a>
+        <a href="/account">Mi cuenta</a>
+        <a href="/messages">Soporte</a>
+        <a href="/profile">Perfil</a>
+        <a href="/preview">Verificar URL</a>
+        <span class="user-chip"><%= user.username %></span>
+        <form action="/logout" method="POST" style="display:inline;margin:0">
+          <% if (typeof csrfToken !== 'undefined') { %><input type="hidden" name="_csrf" value="<%= csrfToken %>" /><% } %>
+          <button type="submit" class="secondary" style="margin-top:0;padding:0.35rem 0.7rem">Salir</button>
+        </form>
+      <% } else { %>
+        <a href="/login">Entrar</a>
+        <a href="/register">Registro</a>
+      <% } %>
+    </nav>
+  </header>
+  <main class="wrap">
+    <% if (flash) { %>
+      <div class="flash <%= flash.type %>"><%= flash.text %></div>
+    <% } %>

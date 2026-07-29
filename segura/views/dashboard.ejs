@@ -1,0 +1,38 @@
+<%- include('partials/header', { title: 'Dashboard' }) %>
+<section class="hero">
+  <h1>Hola, <%= me.username %></h1>
+  <p>Resumen de tu cuenta demo. El saldo es ficticio y solo existe en este laboratorio.</p>
+</section>
+<div class="grid-2">
+  <section class="panel">
+    <h2>Saldo disponible</h2>
+    <p class="balance">$<%= Number(me.balance).toFixed(2) %></p>
+    <p class="muted"><a href="/account?id=<%= me.id %>">Ver extracto completo</a></p>
+  </section>
+  <section class="panel">
+    <h2>Acciones rápidas</h2>
+    <p><a class="btn" href="/transfer">Nueva transferencia</a></p>
+    <p><a class="btn secondary" href="/messages">Escribir a soporte</a></p>
+  </section>
+</div>
+<section class="panel">
+  <h2>Últimos movimientos</h2>
+  <% if (!txs.length) { %>
+    <p class="muted">Sin movimientos.</p>
+  <% } else { %>
+    <table>
+      <thead><tr><th>Concepto</th><th>De</th><th>A</th><th>Monto</th></tr></thead>
+      <tbody>
+        <% txs.forEach(t => { %>
+          <tr>
+            <td><%= t.concept %></td>
+            <td><%= t.from_name || '—' %></td>
+            <td><%= t.to_name || '—' %></td>
+            <td>$<%= Number(t.amount).toFixed(2) %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</section>
+<%- include('partials/footer') %>

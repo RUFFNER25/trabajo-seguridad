@@ -1,0 +1,22 @@
+<%- include('partials/header', { title: 'Transferir' }) %>
+<section class="hero">
+  <h1>Transferencia</h1>
+  <p>Envía saldo ficticio a otro cliente del laboratorio.</p>
+</section>
+<section class="panel">
+  <form method="POST" action="/transfer">
+    <% if (typeof csrfToken !== 'undefined') { %><input type="hidden" name="_csrf" value="<%= csrfToken %>" /><% } %>
+    <label>Destinatario</label>
+    <select name="to" required>
+      <% users.forEach(u => { %>
+        <option value="<%= u.username %>"><%= u.username %></option>
+      <% }) %>
+    </select>
+    <label>Monto</label>
+    <input type="number" name="amount" min="0.01" step="0.01" required />
+    <label>Concepto</label>
+    <input name="concept" value="Transferencia" />
+    <button type="submit">Enviar</button>
+  </form>
+</section>
+<%- include('partials/footer') %>
